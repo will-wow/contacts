@@ -1,5 +1,6 @@
 class ContactsController < ApplicationController
   before_action :set_contact, only: [:show, :edit, :update, :destroy]
+  before_action :set_contact_count, only: [:index, :edit, :show]
 
   # GET /contacts
   # GET /contacts.json
@@ -65,6 +66,10 @@ class ContactsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_contact
       @contact = Contact.find(params[:id])
+    end
+
+    def set_contact_count
+      @contact_count = Contact.all.count
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

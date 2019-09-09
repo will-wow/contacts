@@ -1,10 +1,10 @@
 <script>
-  export let name;
+  export let name
 </script>
 
 <style>
   h1 {
-    color: #FF3E00;
+    color: #ff3e00;
   }
 </style>
 

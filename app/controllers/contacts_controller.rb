@@ -1,11 +1,11 @@
 class ContactsController < ApplicationController
   before_action :set_contact, only: [:show, :edit, :update, :destroy]
-  before_action :set_contact_count, only: [:index, :edit, :show]
+  before_action :set_contact_count, only: [:edit, :show]
 
   # GET /contacts
   # GET /contacts.json
   def index
-    @contacts = Contact.all
+    @contacts = Contact.all.order(:created_at)
   end
 
   # GET /contacts/1

@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<%= render "header", title: "Contacts", contact_count: @contact_count %>
+<%= render "header", title: "Contacts" %>
 
 <table class="table">
   <thead>
@@ -13,21 +13,9 @@
     </tr>
   </thead>
 
-  <tbody>
-    <% @contacts.each do |contact| %>
-      <tr>
-        <td><%= contact.name %></td>
-        <td><%= contact.email %></td>
-        <td><%= contact.twitter %></td>
-        <td><%= contact.phone %></td>
-        <td><%= link_to 'Show', contact, class: "btn btn-info" %></td>
-        <td><%= link_to 'Edit', edit_contact_path(contact), class: "btn btn-primary" %></td>
-        <td><%= link_to 'Destroy', contact, method: :delete, class: "btn btn-danger", data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
+  <%= svelte_component("ContactList", {contacts: @contacts}, tag: "tbody") %>
 </table>
 
 <br>
 
-<%= link_to 'New Contact', new_contact_path, class: "btn btn-primary" %>
+<%= svelte_component("NewContactButton") %>

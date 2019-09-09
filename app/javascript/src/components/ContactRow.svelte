@@ -1,24 +1,19 @@
 <script>
-  import axios from "axios"
-  import { fade } from "svelte/transition"
+  export let contact;
+  export let onSave;
+  export let onDelete;
 
-  export let contact
-  export let onSave
-  export let onDelete
-
-  const inputClass = "form-control"
-
-  let error = false
+  let error = false;
   const handleSave = () => {
-    error = false
-    onSave().catch(() => (error = true))
-  }
+    error = false;
+    onSave().catch(() => (error = true));
+  };
 
   const handleDelete = () => {
     if (confirm("Are you sure?")) {
-      onDelete()
+      onDelete();
     }
-  }
+  };
 </script>
 
 <style>
@@ -48,12 +43,10 @@
     <a class="btn btn-info btn-xs" href="/contacts/{contact.id}">Show</a>
   </td>
   <td>
-    <button type="button" class="btn btn-primary btn-xs" on:click={handleSave}>
-      Save
-    </button>
+    <button class="btn btn-primary btn-xs" on:click={handleSave}>Save</button>
   </td>
   <td>
-    <button type="button" class="btn btn-danger btn-xs" on:click={handleDelete}>
+    <button class="btn btn-danger btn-xs" on:click={handleDelete}>
       Destroy
     </button>
   </td>

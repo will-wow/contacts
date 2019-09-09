@@ -2,7 +2,7 @@
 
 <h1>Contacts</h1>
 
-<table>
+<table class="table">
   <thead>
     <tr>
       <th>Name</th>
@@ -20,9 +20,9 @@
         <td><%= contact.email %></td>
         <td><%= contact.twitter %></td>
         <td><%= contact.phone %></td>
-        <td><%= link_to 'Show', contact %></td>
-        <td><%= link_to 'Edit', edit_contact_path(contact) %></td>
-        <td><%= link_to 'Destroy', contact, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', contact, class: "btn btn-info" %></td>
+        <td><%= link_to 'Edit', edit_contact_path(contact), class: "btn btn-primary" %></td>
+        <td><%= link_to 'Destroy', contact, method: :delete, class: "btn btn-danger", data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -30,4 +30,4 @@
 
 <br>
 
-<%= link_to 'New Contact', new_contact_path %>
+<%= link_to 'New Contact', new_contact_path, class: "btn btn-primary" %>

@@ -8,14 +8,10 @@
 
   const inputClass = "form-control"
 
-  let saving
-
-  const updateSaving = isSaving => {
-    if (isSaving) {
-      saving = true
-    } else if (!isSaving) {
-      setTimeout(() => (saving = false), 500)
-    }
+  let error = false
+  const handleSave = () => {
+    error = false
+    onSave().catch(() => (error = true))
   }
 
   const handleDelete = () => {
@@ -23,21 +19,15 @@
       onDelete()
     }
   }
-
-  $: updateSaving(contact.saving)
 </script>
 
 <style>
   tr {
-    transition: background 0.5s linear;
-  }
-
-  .saving {
-    background: var(--yellow) !important;
+    transition: background 1s ease;
   }
 </style>
 
-<tr class:saving>
+<tr class:error-background={error}>
   <td>
     <input
       class="form-control"
@@ -58,7 +48,7 @@
     <a class="btn btn-info btn-xs" href="/contacts/{contact.id}">Show</a>
   </td>
   <td>
-    <button type="button" class="btn btn-primary btn-xs" on:click={onSave}>
+    <button type="button" class="btn btn-primary btn-xs" on:click={handleSave}>
       Save
     </button>
   </td>

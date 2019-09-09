@@ -4,7 +4,10 @@ module.exports = {
     {
       loader: "svelte-loader",
       options: {
-        hotReload: true
+        // HMR isn't supported for Svelte3 yet
+        // https://github.com/sveltejs/svelte-loader/issues/74
+        hotReload: false,
+        emitCss: true
       }
     }
   ]

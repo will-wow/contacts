@@ -1,28 +1,32 @@
 <script>
-  export let contact;
-  export let onSave;
-  export let onDelete;
+  export let contact
+  export let onSave
+  export let onDelete
 
-  let error = false;
+  let error = false
   const handleSave = () => {
-    error = false;
-    onSave().catch(() => (error = true));
-  };
+    error = false
+    onSave().catch(() => (error = true))
+  }
 
   const handleDelete = () => {
     if (confirm("Are you sure?")) {
-      onDelete();
+      onDelete()
     }
-  };
+  }
 </script>
 
 <style>
   tr {
     transition: background 1s ease;
   }
+
+  .error {
+    background: LightCoral;
+  }
 </style>
 
-<tr class:error-background={error}>
+<tr class:error>
   <td>
     <input
       class="form-control"

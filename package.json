@@ -4,14 +4,10 @@
   "private": false,
   "license": "MIT",
   "dependencies": {
-    "@rails/actioncable": "^6.0.0-alpha",
-    "@rails/activestorage": "^6.0.0-alpha",
-    "@rails/ujs": "^6.0.0-alpha",
-    "@rails/webpacker": "^4.0.7",
-    "axios": "^0.19.0",
-    "turbolinks": "^5.2.0"
+    "webpacker-svelte": "^0.1.0"
   },
   "devDependencies": {
+    "@rails/webpacker": "^4.0.7",
     "@testing-library/jest-dom": "^4.1.0",
     "@testing-library/svelte": "^1.8.0",
     "babel-jest": "^24.9.0",
@@ -25,8 +21,7 @@
     "prettier": "^1.18.2",
     "svelte-loader": "^2.13.6",
     "svelte": "^3.11.0",
-    "webpack-dev-server": "^3.8.0",
-    "webpacker-svelte": "^0.0.0"
+    "webpack-dev-server": "^3.8.0"
   },
   "scripts": {
     "lint": "npm-run-all -c lint:*",
@@ -34,7 +29,7 @@
     "lint:eslint": "eslint app/javascript/src/",
     "format": "npm-run-all -c format:*",
     "format:eslint": "eslint --fix app/javascript/src/",
-    "format:prettier": "prettier --write '**/*.{js,json,md,svelte}'",
+    "format:prettier": "prettier --write '**/*.{js,json,svelte}'",
     "test": "jest"
   }
 }

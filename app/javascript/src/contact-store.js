@@ -1,5 +1,5 @@
 import { writable, derived } from "svelte/store"
-import axios from "axios"
+import Api from "./api"
 
 export const contactStore = writable([])
 
@@ -9,18 +9,18 @@ export const contactCountStore = derived(
 )
 
 export const createContact = async contact => {
-  const { data: createdContact } = await axios.post("/contacts.json", {
+  const createdContact = await Api.post("/contacts.json", {
     contact
   })
   contactStore.update(contacts => [...contacts, createdContact])
 }
 
 export const saveContact = contact =>
-  axios.put(`/contacts/${contact.id}.json`, { contact })
+  Api.put(`/contacts/${contact.id}.json`, { contact })
 
 export const deleteContact = contact => {
   contactStore.update(contacts =>
     contacts.filter(({ id }) => id !== contact.id)
   )
-  return axios.delete(`/contacts/${contact.id}.json`)
+  return Api.delete(`/contacts/${contact.id}.json`)
 }

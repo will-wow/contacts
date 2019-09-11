@@ -89,3 +89,7 @@ production:
   database: contacts_production
   username: contacts
   password: <%= ENV['CONTACTS_DATABASE_PASSWORD'] %>
+  # database: contacts_development
+  # host: localhost
+  # username: postgres
+  # password: postgres

@@ -4782,9 +4782,10 @@ jest-snapshot@^24.9.0:
     pretty-format "^24.9.0"
     semver "^6.2.0"
 
-"jest-transform-svelte@https://github.com/will-wow/jest-transform-svelte.git":
-  version "2.0.2"
-  resolved "https://github.com/will-wow/jest-transform-svelte.git#631f92696ebe33b03b83af882822b738fd4c31c8"
+jest-transform-svelte@2.1.0-beta.1:
+  version "2.1.0-beta.1"
+  resolved "https://registry.yarnpkg.com/jest-transform-svelte/-/jest-transform-svelte-2.1.0-beta.1.tgz#14b6f907b76444a76b6a40ae8da6a0c7ce21394d"
+  integrity sha512-aFnn3D6jXCrdrzHEHCNO4I0o6VwNcC18zcEkVY5j7G9PNZSfohrXtfqNh8lIWh9SjR0s6mmylxLjO8A7+OxGVw==
   dependencies:
     deasync "^0.1.15"
 

@@ -523,9 +523,9 @@ export const contactCountStore = derived(
 
 That's better! The other nice thing about this refactor is it makes the component easier to test.
 
-To do that, we'll use [svelte-testing-library](), which is based on the popular [react-testing-library](https://testing-library.com/docs/svelte-testing-library/intro). We'll also need to teach Jest how to compile our Svelte components with (jest-transform-svelte)[https://github.com/rspieker/jest-transform-svelte]. You man run into issues with that library if you've got a complicated Webpack setup, or are using [Svelte preprocessors](https://github.com/kaisermann/svelte-preprocess) for TypesScript or SCSS. I've got a PR in to fix those issues, but in the meantime you can use [this fork](https://github.com/will-wow/jest-transform-svelte).
+To do that, we'll use [svelte-testing-library](), which is based on the popular [react-testing-library](https://testing-library.com/docs/svelte-testing-library/intro). We'll also need to teach Jest how to compile our Svelte components with (jest-transform-svelte)[https://github.com/rspieker/jest-transform-svelte]. I recently got a PR accepted to add support for complicated Webpack setups, and Svelte preprocessors for things like [TypesScript and postcss](https://github.com/kaisermann/svelte-preprocess). So make sure to install the `2.1.0-beta.1` or later.
 
-So first, add these dependencies to your package.json.
+To set that all up, add these dependencies to your package.json.
 
 ```json
 {
@@ -533,7 +533,7 @@ So first, add these dependencies to your package.json.
     "@testing-library/jest-dom": "^4.1.0",
     "@testing-library/svelte": "^1.8.0",
     "jest": "^24.9.0",
-    "jest-transform-svelte": "https://github.com/will-wow/jest-transform-svelte.git"
+    "jest-transform-svelte": "2.1.0-beta.1"
   }
 }
 ```

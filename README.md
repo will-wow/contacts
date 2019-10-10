@@ -1,24 +1,41 @@
-# README
+# Contacts
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a sample app for showing a Rails app that embeds Svelte components with
+[webpacker-svelte](https://github.com/will-wow/webpacker-svelte).
+For more information, see the related [blog post](docs/blog.md).
 
-Things you may want to cover:
+## Development
 
-- Ruby version
+### Set up
 
-- System dependencies
+```bash
+gem install bundler
+bundle install
+yarn install
+```
 
-- Configuration
+### Run
 
-- Database creation
+```bash
+bundle exec rails s
+```
 
-- Database initialization
+### Switch to pre-Svelte branch
 
-- How to run the test suite
+```bash
+git checkout rails
+```
 
-- Services (job queues, cache servers, search engines, etc.)
+## Blog
 
-- Deployment instructions
+### Convert from WordPress:
 
-- ...
+replace `\[code language="(.+)"\]` with ` ```$1 `
+
+replace `[/code]` with ` ``` `
+
+### Convert to WordPress:
+
+replace ` ```(.+)$ ` with `[code language="$1"]`
+
+replace ` ``` ` with `[/code]`

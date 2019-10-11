@@ -110,12 +110,11 @@ At this point, you should have a simple contacts app. With a little bootstrap st
 ![HTML Edit](https://paper-attachments.dropbox.com/s_3D847DC74D7CBD3D31E1AC105E45E5CBD380A0AC53B5B7C815522AA2A363D67D_1568183256404_html_edit.png)
 
 
-It's amazing how easy it is to make these HTML pages with Rails generators. But of course, it can't last. Next on the backlog is a story to allow users to update contacts inline on the index page. It would be a pain to use jQuery to code up the logic to do CRUD operations on the rows in that index table. But this is a great case for using a few components - a `ContactList` and `ContactRow` for the editable contacts, and a `ContactCounter` for that badge in the corner. 
+It's amazing how easy it is to make these HTML pages with Rails generators. But of course, it can't last. Next on the backlog is a story to allow users to update contacts inline on the index page. It would be a doable to use jQuery to code up the logic to do CRUD operations on the rows in that index table.
 
-If you’re wondering why we’d add a whole framework for three little components, worry not - when we’re done, this whole think will add up to only **14.58 KB** gzipped, which is about as well as you would do with a jQuery solution.
+But if you've spent time building front ends with components, it's hard to go back. Svelte lets us do that with a minimum of fuss or code bloat. We'll be adding a `ContactList` and `ContactRow` for the editable contacts, and a `ContactCounter` for that badge in the corner -- and when we’re done, this whole think will add up to only **14.58 KB** gzipped, which is about as well as you would do with a jQuery solution.
 
 So let’s add Svelte! To add it to the Rails app, just run
-
 
 ```bash
 rake webpacker:install:svelte
@@ -240,6 +239,7 @@ As we saw, a parent will need to pass the `contact`, `onSave`, and `onDelete` pr
 </script>
 
 {#each contacts as contact}
+<!-- bind to update the store from the ContactRow -->
 <ContactRow 
   bind:contact
   onSave={() => saveContact(contact)}
@@ -373,7 +373,6 @@ Next, we'll have to refactor `ContactList` a bit to initialize the store from pr
 
 <!-- Loop over the store instead of the contacts prop -->
 {#each $contactStore as contact}
-<!-- bind to update the store from the ContactRow -->
 <ContactRow 
   bind:contact
   onSave={() => saveContact(contact)}
@@ -407,7 +406,7 @@ With that refactor done, there are just a few changes to add the `NewContactButt
 
 
 ```html
-<!-- NewContactButton.svelte -->
+<!-- app/javascript/src/components/NewContactButton.svelte -->
 <script>
   import { createContact } from "../contact-store"
 </script>
@@ -417,7 +416,7 @@ With that refactor done, there are just a few changes to add the `NewContactButt
 
 
 ```javascript
-// contact-store.js
+// app/javascript/src/contact-store.js
 import { writable, derived } from "svelte/store"
 import Api from './api'
 export const contactStore = writable([])
@@ -434,7 +433,7 @@ export const createContact = async contact => {
 
 
 ```javascript
-// application.js
+// app/javascript/src/application.js
 import NewContactButton from "../src/NewContactButton"
 
 WebpackerSvelte.setup({ ContactList, NewContactButton })
@@ -450,36 +449,40 @@ That's an interesting challenge, because the counter on the index page should be
 
 
 ```html
-<!-- ContactCount.svelte -->
+<!-- app/javascript/src/components/ContactCount.svelte -->
 <script>
   import { contactStore } from "../contact-store"
 
   export let count = null
 
+  // Reactive declaration that calculates the count from props or the store.  
   $: contactCount = count === null ? $contactStore.length : count
 </script>
 
 <span class="badge badge-pill badge-info">Total: {contactCount}</span>
+```
 
-
-// application.js
+```javascript
+// app/javascript/src/application.js
 import ContactCount from "../src/ContactCount"
 
 WebpackerSvelte.setup({ ContactList, NewContactButton, ContactCount })
 ```
 
-So `count` defaults to null, unless a prop is passed in. To show it won't change, we make it a `const` instead of a `let`. The final `$contactCount` is either the `count` prop, or the length of the `$contactStore`. And remember, prefixing `contactStore` with a `$` sets up a subscription to the store, so the reactive deceleration will be re-run every time the store is updated.
+So `count` defaults to null, unless a prop is passed in. The final `$contactCount` is either the `count` prop, or the length of the `$contactStore`. And remember, prefixing `contactStore` with a `$` sets up a subscription to the store, so the reactive deceleration will be re-run every time the store is updated.
 
 With that, we can render this component on the different pages. First the dynamic index page:
 
 
 ```html
+<!-- app/views/contacts/index.html.erb -->
 <%= svelte_component("ContactCount") %>
 ```
 
 And then on the static pages:
 
 ```html
+<!-- app/views/contacts/edit.html.erb -->
 <%= svelte_component("ContactCount", count: @contact_count) %>
 ```
 
@@ -518,7 +521,7 @@ First, you may have noticed that we haven't talked about styling yet. That's on 
 
 Svelte actually has some nice styling facilities that let you bundle isolated styles with your components. But when you're using Svelte within a larger Rails app, you probably already have a CSS system in place, and there's no reason to change that. You can just use the same CSS classes as you do elsewhere in your app, and everything will be fine.
 
-If you want to dig into Svelte's style system, or see how to conditionally add and remove classes, [the docs](https://svelte.dev/tutorial/classes) have some good examples.
+If you want to dig into Svelte's style system, or see how to conditionally set CSS classes, [the docs](https://svelte.dev/tutorial/classes) have some good examples.
 
 Second, we wouldn't merge production code without tests, which we haven't gotten to in this tutorial. The testing story with Svelte is pretty good, but there's enough to talk about that it deserves its own post. So stay tuned for Part II, where we'll dig into how to test these components.
 
@@ -527,4 +530,4 @@ Second, we wouldn't merge production code without tests, which we haven't gotten
 
 And with that, we're done! With just a little Svelte, we've added a ton of dynamism to our Rails app, without a significant re-write. And again in production mode, the whole JavaScript build comes out to only 14.58 KB gzipped, so you're not weighting down your app with a bunch of frontend code.
 
-To see this all working together, you can checkout the master branch [here](https://github.com/will-wow/contacts). Svelte also has a great [interactive tutorial,](https://svelte.dev/tutorial/basics) to let you get more comfortable with the framework and dig into advanced techniques like animations, contexts. There’s also [Sapper](https://sapper.svelte.dev/), a batteries-included application framework like React’s [Next.js](https://nextjs.org). And if you’re looking to add some dynamic content to a server-rendered app, give Svelte a try!
+To see this all working together, you can checkout the master branch [here](https://github.com/will-wow/contacts). Svelte also has a great [interactive tutorial](https://svelte.dev/tutorial/basics) to let you get more comfortable with the framework and dig into advanced techniques like animations and slots. There’s also [Sapper](https://sapper.svelte.dev/), a batteries-included application framework like React’s [Next.js](https://nextjs.org). If you’re looking to add some dynamic content to a server-rendered app, give Svelte a try!

@@ -11,7 +11,7 @@ Sometimes we find ourselves adding a few API routes and a bit of client-side jQu
 
 Then it happens. That moment where the dev teams says "oh no, should we have used React?" Maybe a users say the interface feels “clunky." Or maybe the next big feature is wizard, with lots of state, conditional fields based on values from previous pages, a dynamic progress bar, validation that should warn you about missing data but not stop you from progressing until you try to submit... the stuff they invented SPAs to deal with.
 
-That doesn't mean the team made a mistake going with Rails! SPAs add drag to any project, and if you can get an MVP out faster without one then you're in a great place. But still, it would be nice if there was something in between; something that had the size and simplicity of jQuery, with the more powerful declarative abstractions of React.
+That doesn't mean the team made a mistake going with Rails! SPAs add drag to any project, and if you can get an MVP out faster without one then you're in a great place. But still, it would be nice if there was something in between: something that had the size and simplicity of jQuery, with the more powerful declarative abstractions of React.
 
 ## Svelte to the Rescue
 
@@ -69,17 +69,17 @@ And here's the equivalent in svelte:
 </div>
 ```
 
-The heart of Svelte's magic is "reactivity". Every `let` deceleration sets up a listener, where any time that variable is assigned to, the change triggers a render of the component. So when the `increment` function calls `count++`, the component will re-render, which will update the `Count` being shown to the user by `Count {count}`.
+The heart of Svelte's magic is "reactivity". Every `let` deceleration sets up a listener, where any time the variable is assigned to, the change triggers a render of the component. So when the `increment` function calls `count++`, the component will re-render, which will update the value shown to the user by `Count {count}`.
 
-Since you often want to do calculations based on state, Svelte also has the "reactive declaration" symbol, `$:`. It's like a `let` declaration, but whenever any variable referenced in the expression — `count` in this case — is updated, the expression is re-run, `remaining`'s value is updated, and the component is re-rendered. `$:` declares a relationship, where `remaining` should always be `10 - count`. This might seem weird, but it's conceptually the same as declaring a variable that you know will be re-calculated in every React render loop — except that `remaining` will get recalculated *only* when `count` changes.
+Since you often want to do calculations based on state, Svelte also has the "reactive declaration" symbol, `$:`. It's like a `let` declaration, but whenever any variable referenced in the expression — `count` in this case — is updated, the expression is re-run, the new variable's value is updated, and the component is re-rendered. `$:` declares a relationship, where `remaining` should always be `10 - count`. This might seem weird, but it's conceptually the same as declaring a variable that you know will be re-calculated in every React render loop — except that `remaining` will get recalculated *only* when `count` changes.
 
-Reactivity means that you're able to do simple assignment in Svelte. But unlike a runtime library like old AngularJS, Svelte can compile to a something that stays performant. But because that complexity is hidden, Rails devs don't have to learn a whole new programming paradigm just to write a little component. They can assign like they would in Ruby, and everything just works.
+Reactivity means that you're able to do simple assignment in Svelte, but without the performance hit from something like AngularJS's digest cycles. But because the complexity of setting up listeners is hidden by the compiler, Rails devs don't have to learn a whole new programming paradigm just to write a little Svelte component. They can assign like they would in Ruby, and everything just works.
 
-If you want to see what comes out of the compiler, Svelte has a nice online REPL that lets you code a component, run it, and see its compiled output. [Here's the](https://svelte.dev/repl/5d2edc49838f479eb1a784be0cb01f43?version=3.10.0) `[CountDown](https://svelte.dev/repl/5d2edc49838f479eb1a784be0cb01f43?version=3.10.0)` [component](https://svelte.dev/repl/5d2edc49838f479eb1a784be0cb01f43?version=3.10.0).
+If you want to see what comes out of the compiler, Svelte has a nice online REPL that lets you code a component, run it, and see its compiled output. [Here's the CountDown component](https://svelte.dev/repl/5d2edc49838f479eb1a784be0cb01f43?version=3.10.0).
 
 ## Rails Integration
 
-Svelte works great for full SPAs, and there are a lot of great tutorials about that. But this post will focus on the case where you've got a working server-rendered web app, and you want to add a little dynamic content to it. So if you’ve got a server-rendered app, and were intrigued by that quick Svelte intro, then let’s see how to integrate it into your app!
+Svelte works well for full SPAs, and there are a lot of great tutorials about that. But this post will focus on the case where you've got a working server-rendered web app, and you want to add a little dynamic content to it. So if you’ve got a something like a Rails app, and were intrigued by that quick Svelte intro, then let’s see how to bring them together!
 
 This example will use Rails, but if you're using another framework like Python's Django or Elixir's Phoenix then this all still applies. There's just a little glue code you'll have to add to your app, while I've got a library for integrating with Rails.
 
@@ -102,7 +102,7 @@ rails g scaffold Contact name:string email:string twitter:string phone:string
 rake db:migrate
 ```
 
-At this point, you should have a simple contacts app. With a little bootstrap styling, it looks like this:
+At this point, you should have a simple contacts app with controllers that handle HTML and JSON requests. With a little bootstrap styling, it looks like this:
 
 ![HTML Index](https://paper-attachments.dropbox.com/s_3D847DC74D7CBD3D31E1AC105E45E5CBD380A0AC53B5B7C815522AA2A363D67D_1568183242104_html_index.png)
 
@@ -110,9 +110,7 @@ At this point, you should have a simple contacts app. With a little bootstrap st
 ![HTML Edit](https://paper-attachments.dropbox.com/s_3D847DC74D7CBD3D31E1AC105E45E5CBD380A0AC53B5B7C815522AA2A363D67D_1568183256404_html_edit.png)
 
 
-It's amazing how easy it is to make these HTML pages with Rails generators. But of course, it can't last. Next on the backlog is a story to allow users to update contacts inline on the index page. It would be a doable to use jQuery to code up the logic to do CRUD operations on the rows in that index table.
-
-But if you've spent time building front ends with components, it's hard to go back. Svelte lets us do that with a minimum of fuss or code bloat. We'll be adding a `ContactList` and `ContactRow` for the editable contacts, and a `ContactCounter` for that badge in the corner -- and when we’re done, this whole think will add up to only **14.58 KB** gzipped, which is about as well as you would do with a jQuery solution.
+It's amazing how easy it is to make these HTML pages with Rails generators. But of course, it can't last. Next on the backlog is a story to allow users to update contacts inline on the index page. It would be a doable to use jQuery to code up the logic to do CRUD operations on the rows in that index table. But if you've spent time building front ends with components, it's hard to go back. Svelte lets us do that with a minimum of fuss or code bloat. We'll be adding a `ContactList` and `ContactRow` for the editable contacts, and a `ContactCounter` for that badge in the corner -- and when we’re done, this whole think will add up to only **14.58 KB** gzipped, which is about as well as you would do with a jQuery solution.
 
 So let’s add Svelte! To add it to the Rails app, just run
 
@@ -218,7 +216,7 @@ Second, the `bind:value={value}` syntax sets up two-way binding, so the parent c
 
 **ContactList**
 
-As we saw, a parent will need to pass the `contact`, `onSave`, and `onDelete` props to each `ContactRow`, and that's the job of the `ContactList`:
+As we saw, a parent will need to pass the `contact`, `onSave`, and `onDelete` props to each `ContactRow`. That's the job of the `ContactList`:
 
 ```html
 <!-- app/javascript/src/components/ContactList.svelte -->
@@ -247,9 +245,9 @@ As we saw, a parent will need to pass the `contact`, `onSave`, and `onDelete` pr
 {/each}
 ```
 
-This component will take a `contacts` prop from a Rails template, which will be the current list of contacts from the database. We then loop over each contact with `{#each contacts as contact}`, and for each one, render a `ContactRow` for that contact.
+This component will take a `contacts` prop from a Rails template, which will be the current list of contacts from the database. We then loop over each contact with `{#each contacts as contact}`, and for each one, render a `ContactRow`.
 
-We also pass in callback functions to the Rows, which will make AJAX calls to save and delete contacts. Note that to make this example simpler, `Api` is just a little wrapper around `fetch`. When deleting a contact, we'll also need to remove it from the list of contacts. So the `onDelete` function does both the DELETE call, and filters out the contact from the list.
+We also pass in callback functions to the Rows, which will make AJAX calls to save and delete contacts. Note that to make this example simpler, `Api` is just a little wrapper around `fetch`. When deleting a contact, we'll also need to remove it from the list of contacts. So the `onDelete` function both does the DELETE call and filters out the contact from the list.
 
 We're using `bind:contact` to get two-way binding when passing each contact to a row. That means when when a user types a character, the `contacts` list in here will be reactively updated, and the changes are ready to be saved by `saveContact`.
 
@@ -287,7 +285,7 @@ def svelte_component(component_name, props = {}, options = {})
 end
 ```
 
-Next, we can register our components in `app/javascript/packs/application.js`:
+Next, we can register our components in the root `application.js` file:
 
 
 ```javascript
@@ -324,13 +322,13 @@ With that, we've got Read, Update, and Delete working, with minimal changes to t
 
 **Sharing State: NewContactButton**
 
-Next, users need to be able to create new contacts from the index page. That means the `New Contact` button, instead of linking to a new page, should create a new contact, update the server, and adding a new row to the table.
+Next, users need to be able to create new contacts from the index page. Right now the `New Contact` button just links to the New Contact page. Instead, it should create a new contact, update the server, and add a new row to the table.
 
-We could add that button to the `ContactList` component. But it would be more convenient to render the `NewContactButton` totally separately, so we can put it wherever we want to in the page. But that means figuring out cross-component communication, so that clicking the `NewContactButton` will somehow change the list of contacts in the `ContactList`.
+We could add that button to the `ContactList` component. But it would be more convenient to render the `NewContactButton` totally separately, so we can put it wherever we want to in the page. But that means figuring out cross-component communication, so clicking the `NewContactButton` will somehow change the list of contacts in the `ContactList`.
 
-For React that might mean spending a couple hours setting up Redux. Instead, Svelte has the concept of Stores, which are just simple implementations of the Observer pattern. You can set a store’s value, update it, and subscribe to updates. Svelte comes with `writable` and `readable` stores, and it’s easy to make custom stores that implement the store interface. Svelte helps you build stores that are `derived` from other stores.
+For React that might mean spending a couple hours setting up Redux. Instead, Svelte has the concept of Stores, which are just simple implementations of the Observer pattern. You can set a store’s value, update it, and subscribe to updates. Svelte comes with `writable` and `readable` stores, and it’s easy to make custom stores that implement the store interface. Svelte also helps you build stores that are `derived` from other stores.
 
-First let's set up the store. It'll be a `writable` store called `contactStore`, that starts as an empty list. We'll also extract the save and delete functions into this module, so all the ways to get and update the contacts are collected together.
+First let's set up the store. It'll be a `writable` store called `contactStore`, which starts as an empty list. We'll also extract the save and delete functions from `ContactList` into this module, so all the ways to get and update contacts are collected together.
 
 ```javascript
 // app/javascript/src/contact-store.js
@@ -352,7 +350,7 @@ export const deleteContact = contact => {
 }
 ```
 
-This will now be the source of truth for contacts going forward, and any interested component can simply import the store to get and update current list of contacts.
+This will now be the source of truth for contacts going forward, and any interested component can simply import the store to get and update the current list of contacts.
 
 Next, we'll have to refactor `ContactList` a bit to initialize the store from props, and then render the contacts from the store. That means that when `NewContactButton` adds a contact to the store, the List will automatically get a reactive update, and know to render the new item.
 
@@ -397,6 +395,7 @@ With that refactor done, there are just a few changes to add the `NewContactButt
     </tr>
   </thead>
 
+  <!-- Old component -->
   <%= svelte_component("ContactList", {contacts: @contacts}, tag: "tbody") %>
 </table>
 
@@ -427,6 +426,7 @@ export const createContact = async contact => {
   const { data: createdContact } = await Api.post("/contacts.json", {
     contact
   })
+  // Add the new contact to the store once it's created on the server.
   contactStore.update(contacts => [...contacts, createdContact])
 }
 ```
@@ -436,6 +436,7 @@ export const createContact = async contact => {
 // app/javascript/src/application.js
 import NewContactButton from "../src/NewContactButton"
 
+// Register the new component as something webpacker-svelte can render.
 WebpackerSvelte.setup({ ContactList, NewContactButton })
 ```
 
@@ -513,17 +514,19 @@ export const contactCountStore = derived(
 <span class="badge badge-pill badge-info">Total: {contactCount}</span>
 ```
 
+That's better, and a good excuse to test out a derived store.
+
 **Styling and Testing**
 
 There are a couple important parts of a web framework that we haven't covered.
 
 First, you may have noticed that we haven't talked about styling yet. That's on purpose!
 
-Svelte actually has some nice styling facilities that let you bundle isolated styles with your components. But when you're using Svelte within a larger Rails app, you probably already have a CSS system in place, and there's no reason to change that. You can just use the same CSS classes as you do elsewhere in your app, and everything will be fine.
+Svelte actually has some nice styling facilities that let you bundle isolated styles with your components. But when you're using Svelte within a larger Rails app, you probably already have a CSS system in place and there's no reason to change that. You can just use the same CSS classes as you do elsewhere in your app, and everything will be fine.
 
-If you want to dig into Svelte's style system, or see how to conditionally set CSS classes, [the docs](https://svelte.dev/tutorial/classes) have some good examples.
+But if you want to dig into Svelte's style system, or see how to conditionally set CSS classes, [the docs](https://svelte.dev/tutorial/classes) have some good examples.
 
-Second, we wouldn't merge production code without tests, which we haven't gotten to in this tutorial. The testing story with Svelte is pretty good, but there's enough to talk about that it deserves its own post. So stay tuned for Part II, where we'll dig into how to test these components.
+Second, we wouldn't merge production code without tests, which we haven't gotten to in this tutorial. The testing story with Svelte is pretty good, but there's enough to talk about that it deserves its own post. So stay tuned for Part II, where we'll dig into how to test these components!
 
 
 ## Wrapping up

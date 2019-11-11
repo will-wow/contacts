@@ -2,7 +2,8 @@
 
 This is a sample app for showing a Rails app that embeds Svelte components with
 [webpacker-svelte](https://github.com/will-wow/webpacker-svelte).
-For more information, see the related [blog post](docs/blog.md).
+
+For more information, see the related [blog post](https://blog.carbonfive.com/2019/10/29/the-best-of-both-worlds-html-apps-svelte).
 
 ## Development
 
@@ -25,17 +26,3 @@ bundle exec rails s
 ```bash
 git checkout rails
 ```
-
-## Blog
-
-### Convert from WordPress:
-
-replace `\[code language="(.+)"\]` with ` ```$1 `
-
-replace `[/code]` with ` ``` `
-
-### Convert to WordPress:
-
-replace ` ```(.+)$ ` with `[code language="$1"]`
-
-replace ` ``` ` with `[/code]`

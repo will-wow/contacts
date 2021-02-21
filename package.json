@@ -4,7 +4,7 @@
   "private": false,
   "license": "MIT",
   "dependencies": {
-    "webpacker-svelte": "^0.1.0"
+    "webpacker-svelte": "^1.0.0"
   },
   "devDependencies": {
     "@rails/webpacker": "^4.0.7",
@@ -29,7 +29,7 @@
     "lint:eslint": "eslint app/javascript/src/",
     "format": "npm-run-all -c format:*",
     "format:eslint": "eslint --fix app/javascript/src/",
-    "format:prettier": "prettier --write '**/*.{js,json,svelte}'",
+    "format:prettier": "prettier --write '**/*.{js,json,md,svelte}'",
     "test": "jest"
   }
 }

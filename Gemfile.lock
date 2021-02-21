@@ -211,7 +211,7 @@ GEM
       nokogiri (~> 1.6)
       rubyzip (~> 1.0)
       selenium-webdriver (>= 3.0, < 4.0)
-    webpacker-svelte (0.0.0)
+    webpacker-svelte (1.0.0)
       webpacker
     websocket-driver (0.7.1)
       websocket-extensions (>= 0.1.0)
@@ -242,7 +242,7 @@ DEPENDENCIES
   web-console (>= 3.3.0)
   webdrivers
   webpacker!
-  webpacker-svelte (~> 0.0.0)
+  webpacker-svelte (~> 1.0.0)
 
 RUBY VERSION
    ruby 2.6.3p62

@@ -8861,10 +8861,10 @@ webpack@^4.32.2:
     watchpack "^1.6.0"
     webpack-sources "^1.4.1"
 
-webpacker-svelte@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/webpacker-svelte/-/webpacker-svelte-0.1.0.tgz#a0d6083dd58d0cc0eb95c72c4746324752ce94f5"
-  integrity sha512-BHdT9aszZanr6/JjitsbUufdqjv2HedNxLrqOP0NUrGjrFOXoWY3jswiSpt4teoC6wx9d7lNb8Ruuj8BoE64tQ==
+webpacker-svelte@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/webpacker-svelte/-/webpacker-svelte-1.0.0.tgz#c1bac3dc557fcfae6fa2fd883614a8ce17037678"
+  integrity sha512-isxFqnvUK8AGjstGg37owt2zthDlbUvLzaP8t9Q+NIAGRfXM2zlwGopv+7E1yGSeGx+GZyt/WvUkS7/IrGj/rw==
   dependencies:
     lodash.assign "^4.2.0"
     lodash.intersection "^4.4.0"
